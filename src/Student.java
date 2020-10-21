@@ -1,10 +1,10 @@
-import org.w3c.dom.ls.LSOutput;
+import tasks.Task;
 
 public class Student extends Person {
 
     public static int solvedTaskCounterByAll;
 
-    private int solvedTaskCounter;
+    private int resolvedTaskCounter;
     private Mentor mentor;
     private boolean allTasksSolved;
 
@@ -17,21 +17,17 @@ public class Student extends Person {
 
     public void resolveTasks(int taskToResolveCounter, Task[] taskArray) {
         if (!this.allTasksSolved) {
-            int resolvedInSession = 0;
-            for (int i = solvedTaskCounter; i < taskArray.length; i++) {
+            for (int i = resolvedTaskCounter; i < taskArray.length; i++) {
                 Task currentTask = taskArray[i];
                 resolveTask(currentTask);
-                if (currentTask.isResolved()) {
-                    resolvedInSession++;
-                }
             }
 
-            if (resolvedInSession == taskToResolveCounter) {
-                this.setAllTasksSolved(true);
+            this.setAllTasksSolved(this.resolvedTaskCounter == taskToResolveCounter);
+
+            if (isAllTasksSolved()) {
                 System.out.print("Все задачи решены, задач больше нет.");
             } else {
                 System.out.print("Ну надо еще постараться");
-                this.setAllTasksSolved(false);
             }
         } else {
             System.out.println("Все задачи уже решены! (งツ)ว");
@@ -39,26 +35,24 @@ public class Student extends Person {
     }
 
     private void resolveTask(Task task) {
-        if (!task.isAutotested()) {
+        if (task.isAutotested()) {
+            System.out.println("Задание выполнено");
 
-            while (!task.isResolved()) {
-                /* возможно хотим немного Thread.sleep() что бы не за досить ментора */
-                getMentor().checkTask(task);
-            }
+        } else {
+            /* Надеюсь с ментором ничего не произойдет */
+            while (!getMentor().checkTask(task));
 
-            this.solvedTaskCounter++;
+            this.resolvedTaskCounter++;
             Student.solvedTaskCounterByAll++;
         }
-
-        System.out.println("Задание выполнено");
     }
 
-    public int getSolvedTaskCounter() {
-        return solvedTaskCounter;
+    public int getResolvedTaskCounter() {
+        return resolvedTaskCounter;
     }
 
-    public void setSolvedTaskCounter(int solvedTaskCounter) {
-        this.solvedTaskCounter = solvedTaskCounter;
+    public void setResolvedTaskCounter(int resolvedTaskCounter) {
+        this.resolvedTaskCounter = resolvedTaskCounter;
     }
 
     public Mentor getMentor() {

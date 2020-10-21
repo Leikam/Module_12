@@ -1,10 +1,36 @@
-public class Mentor extends Person {
-    
+import java.util.Random;
+
+import tasks.Task;
+
+public class Mentor extends Person implements Staff {
+
+    private static final Random RANDOM = Utils.RANDOM; // несколько бесмысленно ввиду Utils, но что бы учесть требования задания
+    private static final int GOOD_MOOD_LIMIT = 1000;
+
+    boolean mood;
+
     public Mentor(String name, int age) {
         super(name, age);
+        this.mood = true;
     }
 
-    public void checkTask(Task task) {
-        task.setResolved(true);
+    @Override
+    public void helpStudent(Student student) {
+        System.out.printf("Мужайся %s сейчас-то еще ничего, дальше хуже будет!\n", student.getName());
     }
+
+    public boolean checkTask(Task task) {
+        this.mood = RANDOM.nextInt() > GOOD_MOOD_LIMIT;
+
+        if (this.mood) {
+            System.out.println("Клевое задание, клево решение и вообще клевый ты студент");
+            return true;
+        } else {
+            System.out.printf("Нет. Твой несчатливый номер %s (╯°□°）╯︵ ┻━┻", task.getNumber());
+            return false;
+        }
+
+    }
+
+
 }
