@@ -1,3 +1,5 @@
 public class Cat {
-    /* implement it */
+    public void feed() {
+        System.out.println("Cat sleeps");
+    }
 }
