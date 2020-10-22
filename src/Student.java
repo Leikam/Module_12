@@ -1,49 +1,49 @@
+import tasks.Autochecked;
 import tasks.Task;
 
 public class Student extends Person {
 
-    public static int solvedTaskCounterByAll;
+    public static int resolvedTaskCounterByWorkingClass;
 
     private int resolvedTaskCounter;
     private Mentor mentor;
-    private boolean allTasksSolved;
+    private boolean allTasksResolved;
 
 
     public Student(String name, int age, Mentor mentor, boolean isAllTasksSolved) {
         super(name, age);
         this.mentor = mentor;
-        this.allTasksSolved = isAllTasksSolved;
+        this.allTasksResolved = isAllTasksSolved;
     }
 
     public void resolveTasks(int taskToResolveCounter, Task[] taskArray) {
-        if (!this.allTasksSolved) {
+        if (this.allTasksResolved) {
+            System.out.println("[%s] Все задачи уже решены! (งツ)ว");
+        } else {
             for (int i = resolvedTaskCounter; i < taskArray.length; i++) {
                 Task currentTask = taskArray[i];
                 resolveTask(currentTask);
             }
 
-            this.setAllTasksSolved(this.resolvedTaskCounter == taskToResolveCounter);
+            this.setAllTasksResolved(this.resolvedTaskCounter == taskToResolveCounter);
 
-            if (isAllTasksSolved()) {
-                System.out.print("Все задачи решены, задач больше нет.");
+            if (isAllTasksResolved()) {
+                System.out.printf("[%s] Все задачи решены, задач больше нет.", getName());
             } else {
-                System.out.print("Ну надо еще постараться");
+                System.out.printf("[%s] Ну надо еще постараться", getName());
             }
-        } else {
-            System.out.println("Все задачи уже решены! (งツ)ว");
         }
     }
 
     private void resolveTask(Task task) {
-        if (task.isAutotested()) {
-            System.out.println("Задание выполнено");
-
+        if (task instanceof Autochecked) {
+            ((Autochecked) task).resolveTask();
         } else {
             /* Надеюсь с ментором ничего не произойдет */
             while (!getMentor().checkTask(task));
 
             this.resolvedTaskCounter++;
-            Student.solvedTaskCounterByAll++;
+            Student.resolvedTaskCounterByWorkingClass++;
         }
     }
 
@@ -63,11 +63,11 @@ public class Student extends Person {
         this.mentor = mentor;
     }
 
-    public boolean isAllTasksSolved() {
-        return allTasksSolved;
+    public boolean isAllTasksResolved() {
+        return allTasksResolved;
     }
 
-    public void setAllTasksSolved(boolean allTasksSolved) {
-        this.allTasksSolved = allTasksSolved;
+    public void setAllTasksResolved(boolean allTasksResolved) {
+        this.allTasksResolved = allTasksResolved;
     }
 }
