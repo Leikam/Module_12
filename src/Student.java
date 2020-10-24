@@ -18,9 +18,10 @@ public class Student extends Person {
 
     public void resolveTasks(int taskToResolveCounter, Task[] taskArray) {
         if (this.allTasksResolved) {
-            System.out.println("[%s] Все задачи уже решены! (งツ)ว");
+            System.out.print("\n[%s] Все задачи уже решены! (งツ)ว\n");
         } else {
-            for (int i = resolvedTaskCounter; i < taskArray.length; i++) {
+            int tasksToResolve = Math.min(taskArray.length, taskToResolveCounter);
+            for (int i = resolvedTaskCounter; i < tasksToResolve; i++) {
                 Task currentTask = taskArray[i];
                 resolveTask(currentTask);
             }
@@ -28,9 +29,9 @@ public class Student extends Person {
             this.setAllTasksResolved(this.resolvedTaskCounter == taskToResolveCounter);
 
             if (isAllTasksResolved()) {
-                System.out.printf("[%s] Все задачи решены, задач больше нет.", getName());
+                System.out.printf("\n[%s] Все задачи решены, задач больше нет.\n", getName());
             } else {
-                System.out.printf("[%s] Ну надо еще постараться", getName());
+                System.out.printf("\n[%s] Не все задачи решены, надо еще постараться\n", getName());
             }
         }
     }
@@ -41,10 +42,10 @@ public class Student extends Person {
         } else {
             /* Надеюсь с ментором ничего не произойдет */
             while (!getMentor().checkTask(task));
-
-            this.resolvedTaskCounter++;
-            Student.resolvedTaskCounterByWorkingClass++;
         }
+
+        this.resolvedTaskCounter++;
+        Student.resolvedTaskCounterByWorkingClass++;
     }
 
     public int getResolvedTaskCounter() {
