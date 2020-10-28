@@ -4,7 +4,6 @@ import tasks.Task;
 
 public class Mentor extends Person implements Staff {
 
-    private static final Random RANDOM = RandomUtils.RANDOM; // что бы учесть требования задания делаем ссылку на рандом константу
     private static final int GOOD_MOOD_LIMIT = 1000;
 
     boolean mood;
@@ -20,7 +19,7 @@ public class Mentor extends Person implements Staff {
     }
 
     public boolean checkTask(Task task) {
-        this.mood = RANDOM.nextInt() > GOOD_MOOD_LIMIT;
+        this.mood = RandomUtils.random() > GOOD_MOOD_LIMIT;
 
         if (this.mood) {
             System.out.print("\nВсе решено по-царски\n");
