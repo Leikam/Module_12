@@ -1,5 +1,3 @@
-import java.util.Random;
-
 import tasks.Task;
 
 public class Mentor extends Person implements Staff {
